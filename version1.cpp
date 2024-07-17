@@ -1,7 +1,10 @@
 // Name: Long Hoang
 
 #include <iostream>
+#include <chrono>
+#include <cstdlib>
 using namespace std;
+using namespace std::chrono; // for the calculate time data for the test run
 
 const int MAX_SIZE = 100;
 
