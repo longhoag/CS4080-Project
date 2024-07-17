@@ -28,7 +28,7 @@ float** multiplyMatrices(float** mat1, float** mat2, int r1, int c1, int r2, int
 
 int main() {
     srand(time(0));
-    int size = 40;
+    int size = 100;
     float** mat1 = new float*[size];
     float** mat2 = new float*[size];
 

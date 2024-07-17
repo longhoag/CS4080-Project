@@ -49,19 +49,22 @@ public:
 
 int main() {
     srand(time(0));
-    int size = 40;
-    Matrix A(size, size);
-    Matrix B(size, size);
+    int size = 10;
+    for(size; size <= 100; size += 5) {
+        Matrix A(size, size);
+        Matrix B(size, size);
 
-    A.input();
-    B.input();
+        A.input();
+        B.input();
 
-    auto start = high_resolution_clock::now();
-    Matrix C = A * B;
-    auto stop = high_resolution_clock::now();
+        auto start = high_resolution_clock::now();
+        Matrix C = A * B;
+        auto stop = high_resolution_clock::now();
 
-    auto duration = duration_cast<microseconds>(stop - start);
-    cout << "Time taken by function: " << duration.count() << " microseconds" << endl;
+        auto duration = duration_cast<microseconds>(stop - start);
+        cout << "Size: " << size << " Time taken: " << duration.count() << " microseconds" << endl;
+
+    }
 
     return 0;
 }

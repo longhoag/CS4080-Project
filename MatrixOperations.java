@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.InputMismatchException;
+import java.util.Random;
 
 // matrix class to handle matrix operations
 class Matrix {
@@ -20,6 +21,15 @@ class Matrix {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 data[i][j] = scanner.nextFloat(); // read each element
+            }
+        }
+    }
+
+    // randomize the element for the test simulation
+    public void randomize(Random rand) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                data[i][j] = rand.nextFloat();
             }
         }
     }
@@ -135,6 +145,7 @@ public class MatrixOperations {
             System.out.println("3. Multiplication");
             System.out.println("4. Enter new matrices");
             System.out.println("5. Exit");
+            System.out.println("6. Perform Test Simulation (Time versus Matrix Size)");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
 
@@ -197,6 +208,39 @@ public class MatrixOperations {
                         // exit the program
                         System.out.println("Exiting...");
                         break;
+
+                    case 6:
+                        {
+                            // perform test simulation to gather runtime data
+                            Random rand = new Random(); // random generator
+                            int size = 10; // square matrix is fine (as noted in the assignment prompt)
+                            
+                            for(size = 10; size <= 100; size += 5) { // test size: 10, 15, 20, ...
+                                Matrix mat1 = new Matrix(size, size);
+                                Matrix mat2 = new Matrix(size, size);
+
+                                mat1.randomize(rand);
+                                mat2.randomize(rand);
+
+                                //mat1.display();
+                                
+
+                                // start time mark
+                                long start = System.nanoTime();
+
+                                Matrix res = A.multiply(B);
+
+                                // end time mark
+                                long stop = System.nanoTime(); //nano time, needed to /1000 later
+
+                                // duration = end - start
+                                long duration = stop - start;
+
+                                System.out.println("Size: " + size + " Time taken: " + duration / 1000 + " microseconds");
+                            }
+
+                            break;
+                        }
                     default:
                         // handle invalid case
                         System.out.println("Invalid choice. Please enter a valid option.");

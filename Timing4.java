@@ -38,7 +38,7 @@ class Matrix {
 public class Timing4 {
     public static void main(String[] args) {
         Random rand = new Random();
-        int size = 10;
+        int size = 20;
         Matrix A = new Matrix(size, size);
         Matrix B = new Matrix(size, size);
 

@@ -1,9 +1,10 @@
 //Name: Long Hoang 
 
 #include <iostream>
+#include <chrono>
 #include <cstdlib>
-
 using namespace std;
+using namespace std::chrono; // for the calculate time data for the test run
 
 // dynamically allocate a matrix
 float** allocateMatrix(int rows, int cols) {
@@ -78,6 +79,15 @@ void displayMatrix(float** matrix, int rows, int cols) {
     }
 }
 
+// random matrix elements for test simulation
+void randomMatrix(float** mat, int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            mat[i][j] = static_cast<float>(rand()) / RAND_MAX; // generate random value for element in the matrix between 0 and 1
+        }
+    }
+}
+
 int main() {
 
     // initialize properties of matrix A and B
@@ -124,6 +134,7 @@ int main() {
         cout << "3. Multiplication" << endl;
         cout << "4. Enter new matrices" << endl;
         cout << "5. Exit" << endl;
+        cout << "6. Perform Test Simulation (Time versus Matrix Size)" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
 
@@ -202,6 +213,42 @@ int main() {
                 // exit the program
                 cout << "Exiting..." << endl;
                 break;
+            case 6: 
+                {
+                    // perform test simulation to gather runtime data
+                    srand(time(0)); // random generator
+                    int size = 10; // square matrix is fine (as noted in the assignment prompt)
+                    
+                    
+
+                    for(size; size <= 100; size += 5) { // test size: 10, 15, 20, ...
+                        
+                        float** mat1 = allocateMatrix(size, size);
+                        float** mat2 = allocateMatrix(size, size);
+
+                        randomMatrix(mat1, size, size);
+                        randomMatrix(mat2, size, size);
+
+                        // start mark for counting
+                        auto start = high_resolution_clock::now();
+
+                        float** res = matrixMultiplication(mat1, mat2, size, size, size);
+
+                        // end mark
+                        auto stop = high_resolution_clock::now();
+
+                        // duration = end - start
+                        auto duration = duration_cast<microseconds>(stop - start);
+                        cout << "Size: " << size << " Time taken: " << duration.count() << " microseconds" << endl;
+
+                        // freeing memory 
+                        deallocateMatrix(res, size);
+                        deallocateMatrix(mat1, size);
+                        deallocateMatrix(mat2, size);
+                        
+                    }
+                    break;
+                }
             default:
                 // handle invalid case
                 cout << "Invalid choice. Please enter a valid option." << endl;
@@ -214,6 +261,43 @@ int main() {
     deallocateMatrix(A, rowsA);
     deallocateMatrix(B, rowsB);
     // we have deallocated matrix C before
+
+
+
+
+
+
+
+    // srand(time(0)); // random generator
+    // int size = 10; // square matrix is fine (as noted in the assignment prompt)
+    
+    
+
+    // for(size; size <= 100; size += 5) { // test size: 10, 15, 20, ...
+        
+    //     float** mat1 = allocateMatrix(size, size);
+    //     float** mat2 = allocateMatrix(size, size);
+
+    //     randomMatrix(mat1, size, size);
+    //     randomMatrix(mat2, size, size);
+
+    //     // start mark for counting
+    //     auto start = high_resolution_clock::now();
+
+    //     float** res = matrixMultiplication(mat1, mat2, size, size, size);
+
+    //     // end mark
+    //     auto stop = high_resolution_clock::now();
+
+    //     // duration = end - start
+    //     auto duration = duration_cast<microseconds>(stop - start);
+    //     cout << "Size: " << size << " Time taken: " << duration.count() << " microseconds" << endl;
+
+    //     // freeing memory 
+    //     deallocateMatrix(res, size);
+    //     deallocateMatrix(mat1, size);
+    //     deallocateMatrix(mat2, size);
+    // }
 
     return 0;
 }

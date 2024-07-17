@@ -3,7 +3,9 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <chrono>
 #include <stdexcept>  // for std::invalid_argument
+using namespace std::chrono; // for the calculate time data for the test run
 
 using namespace std;
 
@@ -55,6 +57,14 @@ public: // public data
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
                 cin >> data[i][j];  // read input each element
+            }
+        }
+    }
+
+    void random() {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                data[i][j] = static_cast<float>(rand()) / RAND_MAX; // generate random value for element in the matrix between 0 and 1
             }
         }
     }
@@ -191,6 +201,7 @@ int main() {
         cout << "3. Multiplication" << endl;
         cout << "4. Enter new matrices" << endl;
         cout << "5. Exit" << endl;
+        cout << "6. Perform Test Simulation (Time versus Matrix Size)" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
 
@@ -251,6 +262,35 @@ int main() {
                     // exit the program
                     cout << "Exiting..." << endl;
                     break;
+                case 6:
+                    {
+                        // perform test simulation to gather runtime data
+                        srand(time(0)); // random generator
+                        int size = 10; // square matrix is fine (as noted in the assignment prompt)
+                        
+                        for(size; size <= 100; size += 5) { // test size: 10, 15, 20, ...
+                            
+                            Matrix mat1(size, size);
+                            Matrix mat2(size, size);
+
+                            mat1.random();
+                            mat2.random(); 
+
+                            // start mark for counting
+                            auto start = high_resolution_clock::now();
+
+                            Matrix res = mat1 * mat2;
+
+                            // end mark
+                            auto stop = high_resolution_clock::now();
+
+                            // duration = end - start
+                            auto duration = duration_cast<microseconds>(stop - start);
+                            cout << "Size: " << size << " Time taken: " << duration.count() << " microseconds" << endl;
+                        }
+                    }
+                    break;
+
                 default:
                     // handle invalid case
                     cout << "Invalid choice. Please enter a valid option." << endl;
